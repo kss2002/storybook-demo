@@ -6,75 +6,57 @@
 
 ## 컴포넌트 추가 순서
 
-### 1. 폴더 및 파일 생성
+### 1. 파일 생성
 
-`src/components/` 아래에 컴포넌트명으로 폴더를 만들고, 아래 두 파일을 생성합니다.
+`src/stories/components/` 아래에 컴포넌트명으로 두 파일을 생성합니다.
 
 ```
-src/components/ComponentName/
+src/stories/components/
 ├── ComponentName.tsx        # 컴포넌트 구현
-└── ComponentName.stories.tsx  # Storybook 스토리
+└── ComponentName.stories.ts # Storybook 스토리
 ```
 
 ### 2. 컴포넌트 구현 (`ComponentName.tsx`)
 
 - **Props 인터페이스를 반드시 export** 합니다. Storybook Controls 자동 생성에 사용됩니다.
-- 스타일링은 **Tailwind CSS + `cn()` 유틸**을 사용합니다.
-- 접근성: `aria-*` 속성, `role`, `htmlFor` 등을 적절히 지정합니다.
-- 외부에서 `className`을 덮어쓸 수 있도록 `className?: string` prop을 받습니다.
-- `React.forwardRef`로 ref를 전달할 수 있게 합니다 (Input, Button 등 인터랙티브 요소).
+- 스타일링은 **Tailwind CSS**를 사용합니다. CSS 파일은 별도로 생성하지 않습니다.
+- Props에 JSDoc 주석을 달면 Storybook Docs에 자동으로 표시됩니다.
 
 ```tsx
 // 기본 틀 예시
-import React from 'react';
-import { cn } from '@/lib/utils';
-
 export interface MyComponentProps {
   /** Props에 JSDoc 주석을 달면 Storybook에 자동 표시됩니다 */
   variant?: 'a' | 'b';
-  children: React.ReactNode;
-  className?: string;
+  label: string;
 }
 
-export function MyComponent({ variant = 'a', children, className }: MyComponentProps) {
-  return (
-    <div className={cn('...', className)}>
-      {children}
-    </div>
-  );
-}
+export const MyComponent = ({ variant = 'a', label }: MyComponentProps) => {
+  return <div className="...">{label}</div>;
+};
 ```
 
-### 3. 스토리 작성 (`ComponentName.stories.tsx`)
+### 3. 스토리 작성 (`ComponentName.stories.ts`)
 
-- 파일 상단에 `tags: ['autodocs']` 를 반드시 추가합니다. (자동 Props 문서화)
-- 컴포넌트 설명은 `parameters.docs.description.component` 에 한국어로 작성합니다.
+- `tags: ['autodocs']` 를 반드시 추가합니다. (자동 Props 문서화)
+- `title`은 `'Example/ComponentName'` 형식으로 맞춥니다.
 - **Default 스토리**를 먼저 작성하고, 각 주요 상태별 스토리를 추가합니다.
-- 여러 변형을 한눈에 비교하는 `AllVariants` 스토리를 포함하면 좋습니다.
 
-```tsx
-import type { Meta, StoryObj } from '@storybook/react';
+```ts
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { MyComponent } from './MyComponent';
 
-const meta: Meta<typeof MyComponent> = {
-  title: 'Components/MyComponent', // 사이드바 경로
+const meta = {
+  title: 'Example/MyComponent',
   component: MyComponent,
-  tags: ['autodocs'],              // 필수: 자동 문서화
-  parameters: {
-    layout: 'centered',
-    docs: {
-      description: {
-        component: '컴포넌트에 대한 한 줄 설명을 작성합니다.',
-      },
-    },
-  },
-};
+  parameters: { layout: 'centered' },
+  tags: ['autodocs'],
+} satisfies Meta<typeof MyComponent>;
 
 export default meta;
-type Story = StoryObj<typeof MyComponent>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { children: '내용' },
+  args: { label: '내용' },
 };
 ```
 
@@ -82,8 +64,8 @@ export const Default: Story = {
 
 ## 스타일 규칙
 
-- 색상은 `tailwind.config.ts`에 정의된 **브랜드 토큰**(`brand-*`)을 우선 사용합니다.
-- 임의의 `[hex값]` 사용은 지양합니다.
+- 스타일은 Tailwind CSS 유틸리티 클래스만 사용합니다. 별도 CSS 파일을 추가하지 않습니다.
+- Tailwind v4를 사용하므로 `tailwind.config.ts` 파일은 없습니다. `src/index.css`에서 `@import 'tailwindcss'`로 전역 스타일을 불러옵니다.
 - 반응형이 필요한 경우 모바일 우선(`sm:`, `md:`)으로 작성합니다.
 
 ## 커밋 메시지 규칙

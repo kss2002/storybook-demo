@@ -16,18 +16,18 @@ npm run storybook
 
 ## 구현 컴포넌트
 
-| 컴포넌트 | 설명                                             |
-| -------- | ------------------------------------------------ |
-| `Button` | Variant(4종) · Size(3종) · Loading · 아이콘 슬롯 |
-| `Badge`  | 상태 라벨. Variant(5종) · Dot 옵션               |
-| `Input`  | Label · HelperText · ErrorMessage · 아이콘 슬롯  |
-| `Card`   | Header / Footer 슬롯 · Hoverable 옵션            |
+| 컴포넌트 | 설명                                         |
+| -------- | -------------------------------------------- |
+| `Button` | Primary / Secondary · Size(3종)              |
+| `Badge`  | 상태 라벨. Variant(5종) · Size(3종)          |
+| `Input`  | Label · Placeholder · Type · Size · Disabled |
+| `Card`   | 이미지 / Footer 슬롯 · 설명 텍스트           |
 
 ## 기술 스택
 
-- React 18 + TypeScript
-- Storybook 8
-- Tailwind CSS 3
+- React 19 + TypeScript
+- Storybook 10
+- Tailwind CSS 4
 - Vite
 
 ## 문서
