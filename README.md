@@ -2,8 +2,9 @@
 
 디자이너와 개발자가 함께 UI 컴포넌트를 확인하고 소통하기 위한 데모 프로젝트입니다.
 
-**공식 사이트**
-https://storybook.js.org/
+**공식 사이트** : https://storybook.js.org/ <br/>
+**리액트 스타트 가이드라인** : https://storybook.js.org/tutorials/intro-to-storybook/react/ko/get-started/
+
 
 ## 빠른 시작
 
